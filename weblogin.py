@@ -42,11 +42,11 @@ def check_login(source_login,username):
 
 def openUrl(url):
     initCookie()
-    req=urllib2.Request(url)
+    req=urllib.Request(url)
     req.add_header('User-Agent',header_string)
     try:
-        response=urllib2.urlopen(req)
-    except urllib2.HTTPError as err:
+        response=urllib.urlopen(req)
+    except urllib.HTTPError as err:
         if err.code==402:
             xbmcgui.Dialog().notification('[ Subscription ERROR ]','There\'s no active subscription paid!',xbmcgui.NOTIFICATION_ERROR,8000,sound=True)
             raise SystemExit
@@ -69,7 +69,7 @@ def doLogin(cookiepath,username,password,url_login):
     if username and password:
         #get the CSRF token
         regexCSRF = r"CSRF_TOKEN\":\"(.*)\",\""
-        req = urllib2.Request(url_login)
+        req = urllib.Request(url_login)
         req.add_header('User-Agent', header_string)
         response = opener.open(req)
         html = response.read()
@@ -79,7 +79,7 @@ def doLogin(cookiepath,username,password,url_login):
             matchNum = matchNum + 1
             CSRF_TOKEN=match.group(1)
         #token gotten
-        req=urllib2.Request(url_login)
+        req=urllib.Request(url_login)
         req.add_data('_token='+CSRF_TOKEN+'&username='+username+'&password='+password)
         req.add_header('User-Agent',header_string)
         response=opener.open(req)
